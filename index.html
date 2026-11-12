@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Info Desa Wirogomo</title>
+<meta name="theme-color" content="#0b2a42">
+<style>
+:root{
+  --bg1:#e3e9ee;--bg2:#c5d0da;--ink:#0f1a24;--muted:#33424f;
+  --p1:#ffffff;--p2:#e8eef3;--edge:#8795a3;
+  --hi:rgba(255,255,255,.85);--sh:rgba(15,26,36,.28);
+  --b1:#3585d6;--b2:#0f5fa8;--b3:#0b4f8a;--bedge:#083a66;--bbase:#062f52;
+  --s1:#ffffff;--s2:#dce4ec;--sink:#0b3d6b;--sedge:#7b8794;--sbase:#9aa7b4;
+  --r1:#d9384a;--r2:#a4001b;--redge:#7a0014;--rbase:#58000e;
+  --plat1:#1b4a6d;--plat2:#0b2a42;
+  --warn:#8a4b00
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg1:#101a26;--bg2:#0a1118;--ink:#eef3f8;--muted:#c3d0dc;
+  --p1:#243447;--p2:#1b2837;--edge:#4c6177;
+  --hi:rgba(255,255,255,.14);--sh:rgba(0,0,0,.6);
+  --b1:#3a8fe0;--b2:#1d68b0;--b3:#15538f;--bedge:#0a2f52;--bbase:#071f38;
+  --s1:#3a4d62;--s2:#27374a;--sink:#eaf2fb;--sedge:#6a8095;--sbase:#0d1620;
+  --warn:#ffc27a
+}}
+*{box-sizing:border-box}
+html{font-size:112.5%}
+body{margin:0 auto;max-width:40rem;min-height:100vh;padding:0 1rem 9rem;font:1rem/1.6 system-ui,sans-serif;color:var(--ink);
+  background:linear-gradient(var(--bg1),var(--bg2)) fixed}
+:focus-visible{outline:4px solid #ffb300;outline-offset:3px}
+h2{font-size:1.55rem;line-height:1.25;margin:0 0 .9rem;text-shadow:0 1px 0 var(--hi)}
+section{padding-top:1rem}
+section[hidden]{display:none}
+.kecil{font-size:1rem;color:var(--muted)}
+
+/* papan nama (header) */
+.plat{margin:1rem 0 .4rem;padding:1rem 1.1rem;border-radius:1rem;color:#fff;
+  background:linear-gradient(var(--plat1),var(--plat2));border:2px solid #061b2c;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.25),inset 0 -3px 6px rgba(0,0,0,.35),0 5px 12px var(--sh)}
+.plat h1{margin:0;font-size:1.7rem;line-height:1.2;text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.plat p{margin:.2rem 0 0;font-size:1rem;color:#d4e3f0}
+.status{display:flex;align-items:center;gap:.6rem;margin-top:.7rem;padding:.4rem .7rem;border-radius:.6rem;font-weight:700;font-size:1rem;
+  background:rgba(0,0,0,.35);box-shadow:inset 0 2px 4px rgba(0,0,0,.5)}
+.lampu{flex:none;width:1.1rem;height:1.1rem;border-radius:50%;border:1px solid rgba(0,0,0,.5);
+  background:radial-gradient(circle at 35% 30%,#d8ffe5,#2fd070 45%,#0d7a38);box-shadow:0 0 8px #2fd070}
+.lampu.mati{background:radial-gradient(circle at 35% 30%,#ffe9c2,#ffa726 45%,#a15a00);box-shadow:0 0 8px #ffa726}
+
+/* panel / kartu */
+.kartu,.kontak,fieldset{background:linear-gradient(var(--p1),var(--p2));border:1px solid var(--edge);border-radius:1rem;
+  box-shadow:inset 0 1px 0 var(--hi),0 4px 10px var(--sh)}
+.kartu,.kontak{padding:1rem;margin-bottom:1.1rem}
+
+/* tombol timbul */
+.btn,button{display:flex;align-items:center;justify-content:center;width:100%;min-height:3.7rem;padding:.6rem 1rem;border-radius:.9rem;
+  font:inherit;font-size:1.3rem;font-weight:800;text-align:center;text-decoration:none;cursor:pointer;
+  color:#fff;background:linear-gradient(var(--b1),var(--b2) 55%,var(--b3));border:2px solid var(--bedge);
+  text-shadow:0 -1px 0 rgba(0,0,0,.4);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.4),inset 0 -3px 0 rgba(0,0,0,.22),0 5px 0 var(--bbase),0 9px 12px var(--sh);
+  transition:transform .05s,box-shadow .05s;-webkit-tap-highlight-color:transparent}
+.btn.alt,button.alt{color:var(--sink);background:linear-gradient(var(--s1),var(--s2));border-color:var(--sedge);text-shadow:0 1px 0 var(--hi);
+  box-shadow:inset 0 2px 0 var(--hi),inset 0 -3px 0 rgba(0,0,0,.12),0 5px 0 var(--sbase),0 9px 12px var(--sh)}
+.btn.darurat{background:linear-gradient(var(--r1),var(--r2));border-color:var(--redge);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.25),0 5px 0 var(--rbase),0 9px 12px var(--sh)}
+.btn:active,button:active{transform:translateY(4px);
+  box-shadow:inset 0 4px 8px rgba(0,0,0,.45),0 1px 0 var(--bbase)}
+.btn.alt:active,button.alt:active{box-shadow:inset 0 4px 8px rgba(0,0,0,.35),0 1px 0 var(--sbase)}
+.btn.darurat:active{box-shadow:inset 0 4px 8px rgba(0,0,0,.5),0 1px 0 var(--rbase)}
+.tumpuk{display:grid;gap:1.1rem;padding-bottom:.4rem}
+
+/* menu bawah: deretan tombol keras */
+nav{position:fixed;left:0;right:0;bottom:0;max-width:40rem;margin:0 auto;display:flex;gap:.6rem;
+  padding:.7rem .7rem calc(.7rem + env(safe-area-inset-bottom));z-index:5;
+  background:linear-gradient(#2c3e50,#16222e);border-top:2px solid #0b141c;box-shadow:0 -6px 14px var(--sh),inset 0 2px 0 rgba(255,255,255,.18)}
+nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:4.4rem;border-radius:.9rem;
+  font-size:1.2rem;font-weight:800;line-height:1.2;text-decoration:none;color:#0b3d6b;
+  background:linear-gradient(#ffffff,#d5dee7);border:2px solid #7b8794;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.9),0 4px 0 #566573,0 7px 10px rgba(0,0,0,.45)}
+nav a span{font-size:1.7rem;line-height:1.1}
+nav a[aria-current=page]{color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,.45);background:linear-gradient(#0b4f8a,#1a6dbd);border-color:#062f52;
+  transform:translateY(3px);box-shadow:inset 0 4px 8px rgba(0,0,0,.55),0 1px 0 #566573}
+nav a[aria-current=page]::after{content:"";width:.5rem;height:.5rem;margin-top:.15rem;border-radius:50%;background:#7dffb0;box-shadow:0 0 6px #7dffb0}
+
+/* cuaca */
+.ikon{font-size:4rem;line-height:1;filter:drop-shadow(0 3px 2px rgba(0,0,0,.3))}
+.now{font-size:2rem;font-weight:800;line-height:1.2;margin:.3rem 0;text-shadow:0 1px 0 var(--hi)}
+.saran{margin:.8rem 0 0;padding:.6rem .8rem;border-radius:.7rem;font-size:1.2rem;font-weight:800;color:var(--warn);
+  background:rgba(255,167,38,.18);box-shadow:inset 0 2px 4px rgba(0,0,0,.2)}
+.saran.contoh{color:#fff;background:var(--r2)}
+.hari{display:flex;justify-content:space-between;gap:.6rem;padding:.8rem 0;border-bottom:2px solid var(--edge);font-size:1.15rem}
+.hari:last-child{border-bottom:0}
+.hari b{display:block}
+h3{font-size:1.35rem;margin:1.2rem 0 .3rem}
+
+/* kontak */
+.kontak .nama{font-size:1.4rem;font-weight:800;line-height:1.3}
+.kontak .nomor{font-size:1.15rem;margin-bottom:.9rem;color:var(--muted)}
+.kontak .tumpuk{grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr))}
+
+/* formulir */
+fieldset{margin:0 0 1.3rem;padding:.8rem}
+legend{font-size:1.3rem;font-weight:800;padding:.1rem .7rem;border-radius:.6rem;color:#fff;background:linear-gradient(var(--plat1),var(--plat2));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 4px var(--sh)}
+.pilih{display:flex;align-items:center;gap:.8rem;min-height:3.5rem;margin:.7rem 0;padding:.6rem .8rem;border-radius:.8rem;font-size:1.2rem;cursor:pointer;
+  background:linear-gradient(var(--s1),var(--s2));border:2px solid var(--sedge);color:var(--sink);
+  box-shadow:inset 0 2px 0 var(--hi),0 4px 0 var(--sbase),0 6px 8px var(--sh)}
+.pilih:has(input:checked){font-weight:800;color:#fff;border-color:var(--bedge);background:linear-gradient(var(--b3),var(--b2));
+  transform:translateY(3px);box-shadow:inset 0 4px 8px rgba(0,0,0,.5),0 1px 0 var(--bbase)}
+.pilih input{flex:none;width:1.8rem;height:1.8rem;margin:0;accent-color:#ffb300}
+.isian{margin-bottom:1.3rem}
+.isian label{display:block;font-size:1.3rem;font-weight:800;margin-bottom:.4rem}
+input[type=text],textarea{width:100%;padding:.8rem;font:inherit;color:#0f1a24;background:#fff;border:2px solid var(--sedge);border-radius:.8rem;
+  box-shadow:inset 0 4px 8px rgba(0,0,0,.22)}
+#status{margin:1rem 0;font-size:1.2rem;font-weight:800}
+</style>
+<noscript><style>section[hidden]{display:block}</style></noscript>
+</head>
+<body>
+<header class="plat">
+  <h1 id="nama-desa">Info Desa</h1>
+  <p id="sub-desa">Banyubiru, Kabupaten Semarang</p>
+  <div class="status"><span class="lampu" id="lampu"></span><span id="mode">Memeriksa sambungan…</span></div>
+</header>
+
+<section id="cuaca">
+  <h2>Cuaca</h2>
+  <div class="kartu"><button type="button" id="btn-notif" class="alt">🔔 Aktifkan notifikasi cuaca</button><p class="kecil" id="status-notif"></p></div>
+  <div id="cuaca-isi"><p>Memuat data cuaca…</p></div>
+</section>
+
+<section id="kontak" hidden>
+  <h2>Nomor yang bisa dihubungi</h2>
+  <div id="daftar-kontak"></div>
+</section>
+
+<section id="lapor" hidden>
+  <h2>Lapor kejadian</h2>
+  <form id="form-lapor">
+    <fieldset>
+      <legend>Apa yang terjadi?</legend>
+      <label class="pilih"><input type="radio" name="jenis" value="Banjir" required>Banjir</label>
+      <label class="pilih"><input type="radio" name="jenis" value="Tanah longsor">Tanah longsor</label>
+      <label class="pilih"><input type="radio" name="jenis" value="Kebakaran">Kebakaran</label>
+      <label class="pilih"><input type="radio" name="jenis" value="Pohon tumbang / jalan tertutup">Pohon tumbang / jalan tertutup</label>
+      <label class="pilih"><input type="radio" name="jenis" value="Ada orang sakit">Ada orang sakit</label>
+      <label class="pilih"><input type="radio" name="jenis" value="Lainnya">Lainnya</label>
+    </fieldset>
+    <fieldset>
+      <legend>Seberapa mendesak?</legend>
+      <label class="pilih"><input type="radio" name="urgensi" value="Darurat sekarang" required>Darurat sekarang</label>
+      <label class="pilih"><input type="radio" name="urgensi" value="Perlu bantuan hari ini">Perlu bantuan hari ini</label>
+      <label class="pilih"><input type="radio" name="urgensi" value="Hanya memberi tahu">Hanya memberi tahu</label>
+    </fieldset>
+    <fieldset>
+      <legend>Ada korban?</legend>
+      <label class="pilih"><input type="radio" name="korban" value="Ada korban" required>Ada</label>
+      <label class="pilih"><input type="radio" name="korban" value="Tidak ada korban">Tidak ada</label>
+      <label class="pilih"><input type="radio" name="korban" value="Belum tahu">Belum tahu</label>
+    </fieldset>
+    <div class="isian">
+      <label for="lokasi">Di mana? (dusun, RT/RW, patokan)</label>
+      <input type="text" id="lokasi" name="lokasi" required>
+    </div>
+    <div class="isian">
+      <label for="catatan">Catatan (boleh kosong)</label>
+      <textarea id="catatan" name="catatan" rows="3"></textarea>
+    </div>
+    <button type="button" id="gps" class="alt">Sertakan lokasi saya (GPS)</button>
+    <div class="kartu" style="margin-top:1.1rem"><b>Pesan yang akan dikirim:</b>
+      <pre id="pratinjau" class="kecil" style="white-space:pre-wrap;margin:.5rem 0 0;font-family:inherit">Isi formulir di atas dulu.</pre></div>
+    <p id="tegas" class="saran" hidden>Kalau ada bahaya sekarang, TELEPON 112 dulu. WhatsApp bisa terlambat dibaca.</p>
+    <div class="tumpuk">
+      <button type="button" id="wa-desa">Kirim WhatsApp ke Perangkat Desa</button>
+      <button type="button" id="wa-bpbd" class="alt">Kirim WhatsApp ke BPBD</button>
+      <button type="button" id="kirim-sms" class="alt">Kirim SMS ke BPBD</button>
+      <a class="btn darurat" id="telp-darurat" href="#">Telepon</a>
+      <button type="submit" class="alt" id="simpan">Simpan, kirim saat ada sinyal</button>
+    </div>
+    <p class="kecil">Setelah menekan tombol, WhatsApp/SMS terbuka dengan pesan sudah terisi. Tekan tombol kirim di sana. Nomor Anda ikut terlihat oleh penerima. SMS dan telepon bisa dipakai di sinyal biasa; WhatsApp butuh data internet.</p>
+    <p id="status" role="status"></p>
+  </form>
+</section>
+
+<nav aria-label="Menu">
+  <a href="#cuaca" data-tab="cuaca"><span aria-hidden="true">☀️</span>Cuaca</a>
+  <a href="#kontak" data-tab="kontak"><span aria-hidden="true">📞</span>Kontak</a>
+  <a href="#lapor" data-tab="lapor"><span aria-hidden="true">📝</span>Lapor</a>
+</nav>
+
+<script src="notif.js"></script>
+<script>
+/* ===== UBAH BAGIAN INI ===== */
+const NAMA_DESA = "Desa Wirogomo";
+// Cuaca: lihat scripts/ambil-cuaca.js (kode desa BMKG 33.22.07.2004 = Wirogomo)
+const NOMOR_SMS  = "081233338119";  // SMS ke BPBD (belum dipastikan membaca SMS; konfirmasi dulu)
+// Penerima WhatsApp (format 62..., tanpa +). Kosongkan "" untuk menyembunyikan tombolnya.
+const PENERIMA_WA = {
+  desa: "",              // WAJIB DIISI: nomor WA piket/Kepala Desa (penerima pertama laporan)
+  bpbd: "6281233338119"  // BPBD Kab. Semarang
+};
+const NOMOR_TELP = "112";
+const ENDPOINT   = "";   // URL penampung laporan (opsional, mengaktifkan antrean offline)
+// wa:true = nomor tel juga WhatsApp; wa:"62..." = nomor WA lain; sms:false = tidak bisa SMS
+const KONTAK = [
+  {nama:"Darurat Terpadu 112", info:"Gratis, semua jenis darurat", tel:"112", sms:false},
+  {nama:"Ambulans / Darurat Kesehatan", info:"Gratis", tel:"118", sms:false},
+  {nama:"Pemadam Kebakaran", info:"Gratis", tel:"113", sms:false},
+  {nama:"Polisi", info:"Gratis", tel:"110", sms:false},
+  {nama:"Basarnas (SAR)", info:"Orang hilang, longsor, banjir besar", tel:"115", sms:false},
+  {nama:"BPBD Kabupaten Semarang", info:"Lapor bencana 24 jam", tel:"0246922400", tampil:"(024) 6922400", sms:false, wa:"6281233338119"},
+  {nama:"PLN", info:"Listrik padam, kabel putus", tel:"123", sms:false}
+  // ISI dari perangkat desa (nomor sungguhan), lalu hapus tanda // di depannya:
+  // ,{nama:"Kepala Desa / Piket Desa", tel:"08xxxxxxxxxx", wa:true}
+  // ,{nama:"Puskesmas Banyubiru", tel:"0xxxxxxxxx", sms:false}
+  // ,{nama:"Bidan Desa", tel:"08xxxxxxxxxx", wa:true}
+];
+/* =========================== */
+
+const $ = id => document.getElementById(id);
+document.title = "Info " + NAMA_DESA;
+$("nama-desa").textContent = "Info " + NAMA_DESA;
+
+/* Menu */
+const TAB = ["cuaca","kontak","lapor"];
+function buka(t){
+  if(!TAB.includes(t)) t = "cuaca";
+  TAB.forEach(id => {
+    $(id).hidden = id !== t;
+    const a = document.querySelector('nav a[data-tab="' + id + '"]');
+    if(id === t) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
+  });
+  scrollTo(0,0);
+}
+document.querySelectorAll("nav a").forEach(a => a.addEventListener("click", e => {
+  e.preventDefault();
+  const t = a.dataset.tab;
+  try{ history.replaceState(null,"","#" + t); }catch(err){}
+  buka(t);
+}));
+addEventListener("hashchange", () => buka(location.hash.slice(1)));
+buka(location.hash.slice(1));
+
+/* Kontak */
+const intl = t => t.replace(/^0/, "62");
+$("daftar-kontak").innerHTML = KONTAK.map(k => {
+  const wa = k.wa === true ? intl(k.tel) : (k.wa || "");
+  return `<div class="kontak"><div class="nama">${k.nama}</div><div class="nomor">${k.tampil || k.tel}${k.info ? "<br>" + k.info : ""}</div>
+   <div class="tumpuk"><a class="btn" href="tel:${k.tel}">Telepon</a>` +
+  (k.sms !== false ? `<a class="btn alt" href="sms:${k.tel}">SMS</a>` : "") +
+  (wa ? `<a class="btn alt" href="https://wa.me/${wa}">WhatsApp</a>` : "") +
+  `</div></div>`;
+}).join("");
+
+/* Cuaca: prakiraan BMKG dari cuaca.json (disiapkan server), cadangan disimpan di HP */
+const KUNCI_CUACA = "cuaca-terakhir";
+const URUT = ["Cerah","Cerah Berawan","Berawan","Berawan Tebal","Udara Kabur","Kabut","Asap","Hujan Ringan","Hujan Lokal","Hujan Sedang","Hujan Lebat","Hujan Petir"];
+const bobot = c => { const i = URUT.findIndex(x => x.toLowerCase() === String(c).toLowerCase()); return i < 0 ? 0.5 : i; };
+const hujan = c => /hujan|petir/i.test(c);
+const ms = w => Date.parse(w + ":00+07:00");
+const jamStr = w => w.slice(11,16).replace(":", ".");
+const tglWIB = t => new Date(t).toLocaleDateString("sv-SE",{timeZone:"Asia/Jakarta"});
+const namaHari = d => new Date(ms(d + "T12:00")).toLocaleDateString("id-ID",{weekday:"long",timeZone:"Asia/Jakarta"});
+function ikon(c, w){
+  const j = +w.slice(11,13), malam = j >= 18 || j < 5, t = String(c).toLowerCase();
+  if(t.includes("petir")) return "⛈️";
+  if(t.includes("hujan")) return "🌧️";
+  if(/kabut|kabur|asap/.test(t)) return "🌫️";
+  if(t.includes("berawan tebal") || t === "berawan") return "☁️";
+  if(t.includes("cerah berawan")) return malam ? "☁️" : "⛅";
+  if(t.includes("cerah")) return malam ? "🌙" : "☀️";
+  return "🌥️";
+}
+function fmtWaktu(iso){
+  try{return new Date(iso).toLocaleString("id-ID",{weekday:"long",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Jakarta"});}catch(e){return "";}
+}
+function tampilCuaca(d, gagal){
+  const slot = d.slot, kini = Date.now();
+  let idx = 0, best = Infinity;
+  slot.forEach((s,i) => { const j = Math.abs(ms(s.w) - kini); if(j < best){ best = j; idx = i; } });
+  const lewat = best > 4.5*3600*1000;
+  let html = "";
+  if(d.contoh) html += '<div class="saran contoh">DATA CONTOH untuk uji coba, bukan cuaca sebenarnya.</div>';
+  if(gagal) html += '<div class="saran">Belum bisa memperbarui. Ini data terakhir yang tersimpan.</div>';
+  else if(kini - Date.parse(d.diambil) > 12*3600*1000) html += '<div class="saran">Data sudah lama. Coba lagi saat ada sinyal.</div>';
+  let mulai = idx;
+  if(lewat){
+    mulai = slot.findIndex(s => ms(s.w) > kini);
+    html += '<div class="saran">Data prakiraan sudah lewat. Coba lagi saat ada sinyal.</div>';
+    if(mulai < 0){ $("cuaca-isi").innerHTML = html; return; }
+  }else{
+    const s = slot[idx];
+    const hjn = slot.slice(idx, idx + 4).filter(x => hujan(x.c));
+    const saran = hjn.length ? `<div class="saran">Hujan diperkirakan sekitar pukul ${hjn.map(x => jamStr(x.w)).join(", ")}. Bawa payung atau jas hujan.</div>` : "";
+    html += `<div class="kartu"><div class="ikon" aria-hidden="true">${ikon(s.c, s.w)}</div>
+      <p class="now">${s.c}, ${Math.round(s.t)}°C</p>
+      <p>Kelembapan ${s.hu}%<br>Angin ${Math.round(s.ws)} km/jam</p>${saran}
+      <p class="kecil">${d.lokasi}. Prakiraan untuk pukul ${jamStr(s.w)}.</p></div>`;
+  }
+  const hari0 = tglWIB(kini), besok = tglWIB(kini + 86400000);
+  const label = w => { const t = w.slice(0,10); return t === hari0 ? "Hari ini" : t === besok ? "Besok" : namaHari(t); };
+  const depan = slot.slice(lewat ? mulai : mulai + 1, (lewat ? mulai : mulai + 1) + 6);
+  if(depan.length){
+    html += '<div class="kartu"><b style="font-size:1.35rem">Beberapa jam ke depan</b>' + depan.map(x =>
+      `<div class="hari"><span><b>${label(x.w)} ${jamStr(x.w)}</b>${ikon(x.c, x.w)} ${x.c}</span>
+       <span style="text-align:right;white-space:nowrap">${Math.round(x.t)}°C</span></div>`).join("") + '</div>';
+  }
+  const grup = {};
+  slot.forEach(x => { const t = x.w.slice(0,10); if(t > hari0) (grup[t] = grup[t] || []).push(x); });
+  const hr = Object.keys(grup).sort().map(t => {
+    const g = grup[t], terburuk = g.reduce((a,b) => bobot(b.c) > bobot(a.c) ? b : a);
+    const jh = g.filter(x => hujan(x.c)).map(x => jamStr(x.w));
+    const ts = g.map(x => x.t);
+    return `<div class="hari"><span><b>${label(t + "T12:00")}</b>${ikon(terburuk.c, t + "T12:00")} ${terburuk.c}<br><span class="kecil">${jh.length ? "Hujan sekitar pukul " + jh.join(", ") : "Tidak ada hujan"}</span></span>
+      <span style="text-align:right;white-space:nowrap">${Math.round(Math.min(...ts))}–${Math.round(Math.max(...ts))}°C</span></div>`;
+  });
+  if(hr.length) html += '<div class="kartu"><b style="font-size:1.35rem">Hari-hari berikutnya</b>' + hr.join("") + '</div>';
+  html += `<p class="kecil">Sumber data: BMKG (Badan Meteorologi, Klimatologi, dan Geofisika). Diperbarui ${fmtWaktu(d.diambil)}.
+    Ini prakiraan cuaca, bukan peringatan dini.</p>`;
+  $("cuaca-isi").innerHTML = html;
+}
+async function muatCuaca(){
+  let simpan = null;
+  try{ simpan = JSON.parse(localStorage.getItem(KUNCI_CUACA) || "null"); }catch(e){}
+  if(simpan && Array.isArray(simpan.slot)) tampilCuaca(simpan, false); else simpan = null;
+  try{
+    const r = await fetch("cuaca.json",{cache:"no-cache"});
+    if(!r.ok) throw 0;
+    const d = await r.json();
+    if(!d || !Array.isArray(d.slot) || !d.slot.length) throw 0;
+    try{ localStorage.setItem(KUNCI_CUACA, JSON.stringify(d)); }catch(e){}
+    tampilCuaca(d, false);
+    jalankanNotif(d).catch(()=>{});
+  }catch(e){
+    if(simpan) tampilCuaca(simpan, true);
+    else $("cuaca-isi").innerHTML = "<p>Data cuaca belum tersedia. Coba lagi saat ada sinyal.</p>";
+  }
+}
+muatCuaca();
+
+/* Notifikasi cuaca (logika di notif.js, dipakai juga oleh sw.js) */
+const KS = "notif-sudah";
+const sembunyiNotifUI = () => { const ok = "Notification" in window && Notification.permission === "granted";
+  $("btn-notif").hidden = ok; $("status-notif").textContent = ok ? "Notifikasi aktif: peringatan cuaca buruk dan ringkasan harian." : "Dapat peringatan cuaca buruk dan ringkasan cuaca harian."; };
+async function jalankanNotif(d){
+  if(d.contoh || !("Notification" in window) || Notification.permission !== "granted") return;
+  let sudah = {}; try{ sudah = JSON.parse(localStorage.getItem(KS) || "{}"); }catch(e){}
+  const reg = await navigator.serviceWorker.ready;
+  for(const n of hitungNotif(d, Date.now(), sudah)){ sudah[n.tag] = 1; reg.showNotification(n.judul, {body:n.isi, tag:n.tag}); }
+  try{ localStorage.setItem(KS, JSON.stringify(Object.fromEntries(Object.entries(sudah).slice(-20)))); }catch(e){}
+}
+$("btn-notif").onclick = async () => {
+  if(!("Notification" in window)){ $("status-notif").textContent = "HP/browser ini belum mendukung notifikasi."; return; }
+  const p = await Notification.requestPermission();
+  if(p !== "granted"){ $("status-notif").textContent = "Izin ditolak. Aktifkan lewat pengaturan situs di browser."; return; }
+  try{ const reg = await navigator.serviceWorker.ready; await reg.periodicSync.register("cuaca", {minInterval: 6*3600*1000}); }catch(e){}
+  sembunyiNotifUI(); muatCuaca();
+};
+sembunyiNotifUI();
+
+/* Status sambungan */
+function ubahMode(){
+  const on = navigator.onLine;
+  $("mode").textContent = on ? "Ada sambungan internet" : "Tanpa internet. Dibuka dari simpanan HP.";
+  $("lampu").classList.toggle("mati", !on);
+}
+addEventListener("online", () => {ubahMode(); muatCuaca(); kirimAntrean();});
+addEventListener("offline", ubahMode);
+ubahMode();
+
+/* Laporan */
+function ambil(){
+  const f = $("form-lapor");
+  if(!f.reportValidity()) return null;
+  const v = n => f.elements[n].value;
+  return {jenis:v("jenis"), urgensi:v("urgensi"), korban:v("korban"),
+    lokasi:v("lokasi").trim(), catatan:v("catatan").trim(), waktu:new Date().toISOString(), desa:NAMA_DESA};
+}
+let koordinat = "";
+const petaUrl = () => koordinat ? "https://maps.google.com/?q=" + koordinat : "";
+function pesan(l){
+  const wkt = new Date().toLocaleString("id-ID",{weekday:"long",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Jakarta"});
+  return `LAPORAN ${l.desa}\nKejadian: ${l.jenis}\nUrgensi: ${l.urgensi}\nKorban: ${l.korban}\nLokasi: ${l.lokasi}` +
+    (koordinat ? `\nPeta: ${petaUrl()}` : "") + (l.catatan ? `\nCatatan: ${l.catatan}` : "") + `\nWaktu: ${wkt} WIB`;
+}
+function pesanSingkat(l){
+  return `LAPOR ${l.desa}: ${l.jenis}; ${l.urgensi}; ${l.korban}; Lokasi: ${l.lokasi}` + (koordinat ? `; Peta: ${petaUrl()}` : "") + (l.catatan ? `; ${l.catatan}` : "");
+}
+function kirimWA(nomor){
+  if(!nomor) return;
+  const l = ambil(); if(!l) return;
+  location.href = `https://wa.me/${nomor}?text=${encodeURIComponent(pesan(l))}`;
+}
+$("wa-desa").onclick = () => kirimWA(PENERIMA_WA.desa);
+$("wa-bpbd").onclick = () => kirimWA(PENERIMA_WA.bpbd);
+if(!PENERIMA_WA.desa) $("wa-desa").hidden = true;
+if(!PENERIMA_WA.bpbd) $("wa-bpbd").hidden = true;
+if(NOMOR_SMS){
+  $("kirim-sms").onclick = () => { const l = ambil(); if(!l) return;
+    location.href = `sms:${NOMOR_SMS}?body=${encodeURIComponent(pesanSingkat(l))}`; };
+}else $("kirim-sms").hidden = true;
+$("telp-darurat").href = "tel:" + NOMOR_TELP;
+$("telp-darurat").textContent = "Telepon darurat (" + NOMOR_TELP + ")";
+
+const frm = $("form-lapor");
+function segarkan(){
+  const v = n => frm.elements[n].value || "…";
+  $("pratinjau").textContent = pesan({desa:NAMA_DESA, jenis:v("jenis"), urgensi:v("urgensi"), korban:v("korban"),
+    lokasi:frm.elements.lokasi.value.trim() || "…", catatan:frm.elements.catatan.value.trim()});
+  $("tegas").hidden = frm.elements.urgensi.value !== "Darurat sekarang";
+}
+frm.addEventListener("input", segarkan); frm.addEventListener("reset", () => setTimeout(segarkan));
+segarkan();
+$("gps").onclick = () => {
+  if(!navigator.geolocation){ $("status").textContent = "HP ini tidak mendukung lokasi."; return; }
+  $("status").textContent = "Mencari lokasi…";
+  navigator.geolocation.getCurrentPosition(
+    p => { koordinat = p.coords.latitude.toFixed(5) + "," + p.coords.longitude.toFixed(5); $("status").textContent = "Lokasi disertakan."; segarkan(); },
+    () => { $("status").textContent = "Lokasi tidak bisa diambil. Tulis lokasi manual saja."; },
+    {enableHighAccuracy:true, timeout:15000});
+};
+if(!ENDPOINT) $("simpan").hidden = true;
+
+/* Antrean offline */
+const KUNCI = "antrean-laporan";
+const baca = () => { try{return JSON.parse(localStorage.getItem(KUNCI)||"[]");}catch(e){return [];} };
+const tulis = a => { try{localStorage.setItem(KUNCI,JSON.stringify(a));}catch(e){} };
+$("form-lapor").addEventListener("submit", e => {
+  e.preventDefault();
+  const l = ambil(); if(!l || !ENDPOINT) return;
+  const a = baca(); a.push(l); tulis(a);
+  $("status").textContent = "Laporan tersimpan di HP. Akan dikirim otomatis saat ada sinyal.";
+  e.target.reset(); kirimAntrean();
+});
+async function kirimAntrean(){
+  if(!ENDPOINT || !navigator.onLine) return;
+  const a = baca(); if(!a.length) return;
+  const sisa = [];
+  for(const l of a){
+    try{
+      const r = await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(l)});
+      if(!r.ok) throw 0;
+    }catch(e){ sisa.push(l); }
+  }
+  tulis(sisa);
+  $("status").textContent = sisa.length ? `${sisa.length} laporan belum terkirim, akan dicoba lagi.` : "Semua laporan sudah terkirim.";
+}
+kirimAntrean();
+
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+</script>
+</body>
+</html>
