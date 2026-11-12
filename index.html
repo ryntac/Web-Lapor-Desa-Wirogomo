@@ -25,6 +25,7 @@
   --warn:#ffc27a
 }}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{font-size:112.5%}
 body{margin:0 auto;max-width:40rem;min-height:100vh;padding:0 1rem 9rem;font:1rem/1.6 system-ui,sans-serif;color:var(--ink);
   background:linear-gradient(var(--bg1),var(--bg2)) fixed}
@@ -281,11 +282,11 @@ function tampilCuaca(d, gagal){
   let html = "";
   if(d.contoh) html += '<div class="saran contoh">DATA CONTOH untuk uji coba, bukan cuaca sebenarnya.</div>';
   if(gagal) html += '<div class="saran">Belum bisa memperbarui. Ini data terakhir yang tersimpan.</div>';
-  else if(kini - Date.parse(d.diambil) > 12*3600*1000) html += '<div class="saran">Data sudah lama. Coba lagi saat ada sinyal.</div>';
+  else if(!lewat && kini - Date.parse(d.diambil) > 12*3600*1000) html += '<div class="saran">Data cuaca belum diperbarui sejak ' + fmtWaktu(d.diambil) + '. Hasilnya bisa kurang akurat.</div>';
   let mulai = idx;
   if(lewat){
     mulai = slot.findIndex(s => ms(s.w) > kini);
-    html += '<div class="saran">Data prakiraan sudah lewat. Coba lagi saat ada sinyal.</div>';
+    html += '<div class="saran">Prakiraan cuaca belum diperbarui (data terakhir: ' + fmtWaktu(d.diambil) + '). Hubungi pengelola web jika terus begini.</div>';
     if(mulai < 0){ $("cuaca-isi").innerHTML = html; return; }
   }else{
     const s = slot[idx];
@@ -314,7 +315,7 @@ function tampilCuaca(d, gagal){
       <span style="text-align:right;white-space:nowrap">${Math.round(Math.min(...ts))}–${Math.round(Math.max(...ts))}°C</span></div>`;
   });
   if(hr.length) html += '<div class="kartu"><b style="font-size:1.35rem">Hari-hari berikutnya</b>' + hr.join("") + '</div>';
-  html += `<p class="kecil">Sumber data: BMKG (Badan Meteorologi, Klimatologi, dan Geofisika). Diperbarui ${fmtWaktu(d.diambil)}.
+  html += `<p class="kecil">Sumber data: ${d.sumber === "BMKG" ? "BMKG (Badan Meteorologi, Klimatologi, dan Geofisika)" : (d.sumber || "BMKG") + " (model prakiraan global, bukan BMKG)"}. Diperbarui ${fmtWaktu(d.diambil)}.
     Ini prakiraan cuaca, bukan peringatan dini.</p>`;
   $("cuaca-isi").innerHTML = html;
 }
