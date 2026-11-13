@@ -1,5 +1,5 @@
 importScripts("notif.js");
-const CACHE = "info-desa-v5";
+const CACHE = "info-desa-v6";
 const SHELL = ["./", "index.html", "notif.js"];
 
 self.addEventListener("install", e => {

@@ -27,7 +27,7 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{font-size:112.5%}
-body{margin:0 auto;max-width:40rem;min-height:100vh;padding:0 1rem 9rem;font:1rem/1.6 system-ui,sans-serif;color:var(--ink);
+body{margin:0 auto;max-width:40rem;min-height:100vh;padding:0 1rem 12.5rem;font:1rem/1.6 system-ui,sans-serif;color:var(--ink);
   background:linear-gradient(var(--bg1),var(--bg2)) fixed}
 :focus-visible{outline:4px solid #ffb300;outline-offset:3px}
 h2{font-size:1.55rem;line-height:1.25;margin:0 0 .9rem;text-shadow:0 1px 0 var(--hi)}
@@ -70,8 +70,12 @@ section[hidden]{display:none}
 .tumpuk{display:grid;gap:1.1rem;padding-bottom:.4rem}
 
 /* menu bawah: deretan tombol keras */
-nav{position:fixed;left:0;right:0;bottom:0;max-width:40rem;margin:0 auto;display:flex;gap:.6rem;
-  padding:.7rem .7rem calc(.7rem + env(safe-area-inset-bottom));z-index:5;
+/* strip bawah (tempat lencana Netlify + gelembung versi); menu diangkat di atasnya */
+.bawah{position:fixed;left:0;right:0;bottom:0;height:calc(3.4rem + env(safe-area-inset-bottom));z-index:4;background:#16222e}
+.versi{position:absolute;left:1rem;top:.55rem;padding:.3rem .9rem;border-radius:999px;font-size:.95rem;font-weight:800;color:#d4e3f0;
+  background:rgba(0,0,0,.4);border:2px solid #0b141c;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+nav{position:fixed;left:0;right:0;bottom:calc(3.4rem + env(safe-area-inset-bottom));max-width:40rem;margin:0 auto;display:flex;gap:.6rem;
+  padding:.7rem;z-index:5;
   background:linear-gradient(#2c3e50,#16222e);border-top:2px solid #0b141c;box-shadow:0 -6px 14px var(--sh),inset 0 2px 0 rgba(255,255,255,.18)}
 nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:4.4rem;border-radius:.9rem;
   font-size:1.2rem;font-weight:800;line-height:1.2;text-decoration:none;color:#0b3d6b;
@@ -181,6 +185,8 @@ input[type=text],textarea{width:100%;padding:.8rem;font:inherit;color:#0f1a24;ba
     <p id="status" role="status"></p>
   </form>
 </section>
+
+<div class="bawah"><span class="versi">Versi 1.0</span></div>
 
 <nav aria-label="Menu">
   <a href="#cuaca" data-tab="cuaca"><span aria-hidden="true">☀️</span>Cuaca</a>
