@@ -1,8 +1,12 @@
 name: Perbarui cuaca
 on:
   schedule:
-    - cron: "7 */3 * * *"   # tiap 3 jam (waktu UTC)
+    - cron: "7 10,22 * * *"  # 2x sehari: 17.07 dan 05.07 WIB (10.07 dan 22.07 UTC)
   workflow_dispatch:
+  push:                      # jalan sekali segera setelah skrip/workflow ini di-upload
+    paths:
+      - "scripts/ambil-cuaca.js"
+      - ".github/workflows/cuaca.yml"
 permissions:
   contents: write
 concurrency:

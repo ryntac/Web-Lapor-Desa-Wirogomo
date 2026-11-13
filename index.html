@@ -288,7 +288,7 @@ function tampilCuaca(d, gagal){
   let html = "";
   if(d.contoh) html += '<div class="saran contoh">DATA CONTOH untuk uji coba, bukan cuaca sebenarnya.</div>';
   if(gagal) html += '<div class="saran">Belum bisa memperbarui. Ini data terakhir yang tersimpan.</div>';
-  else if(!lewat && kini - Date.parse(d.diambil) > 12*3600*1000) html += '<div class="saran">Data cuaca belum diperbarui sejak ' + fmtWaktu(d.diambil) + '. Hasilnya bisa kurang akurat.</div>';
+  else if(!lewat && kini - Date.parse(d.diambil) > 26*3600*1000) html += '<div class="saran">Data cuaca belum diperbarui sejak ' + fmtWaktu(d.diambil) + '. Hasilnya bisa kurang akurat.</div>';
   let mulai = idx;
   if(lewat){
     mulai = slot.findIndex(s => ms(s.w) > kini);
