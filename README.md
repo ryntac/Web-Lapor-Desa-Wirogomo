@@ -112,15 +112,14 @@ Gunakan alamat HTTPS sementara, misalnya fitur **Ports** di VS Code atau `cloudf
 
 Pengaturan berada di bagian atas tag `<script>` pada `index.html`.
 
-| Parameter          | Fungsi                                                                                             |
-| ------------------ | -------------------------------------------------------------------------------------------------- |
-| `NAMA_DESA`        | Nama desa pada pesan laporan                                                                       |
-| `PENERIMA_WA.desa` | Nomor WhatsApp piket atau Kepala Desa (format `62...`, tanpa `+`). Tombol tersembunyi sampai diisi |
-| `PENERIMA_WA.bpbd` | Nomor WhatsApp BPBD                                                                                |
-| `NOMOR_SMS`        | Nomor tujuan SMS. Kosongkan untuk menyembunyikan tombol                                            |
-| `NOMOR_TELP`       | Nomor tombol telepon darurat (default `112`)                                                       |
-| `ENDPOINT`         | URL penampung laporan, opsional (mengaktifkan antrean offline)                                     |
-| `KONTAK`           | Daftar kontak pada tab Kontak                                                                      |
+| Parameter          | Fungsi                                                         |
+| ------------------ | -------------------------------------------------------------- |
+| `NAMA_DESA`        | Nama desa pada pesan laporan                                   |
+| `PENERIMA_WA.bpbd` | Nomor WhatsApp BPBD                                            |
+| `NOMOR_SMS`        | Nomor tujuan SMS. Kosongkan untuk menyembunyikan tombol        |
+| `NOMOR_TELP`       | Nomor tombol telepon darurat (default `112`)                   |
+| `ENDPOINT`         | URL penampung laporan, opsional (mengaktifkan antrean offline) |
+| `KONTAK`           | Daftar kontak pada tab Kontak                                  |
 
 Pengaturan sumber data cuaca berada di `scripts/ambil-cuaca.js`:
 
