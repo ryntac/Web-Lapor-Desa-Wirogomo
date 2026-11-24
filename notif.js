@@ -1,5 +1,7 @@
 // Logika notifikasi cuaca, dipakai oleh halaman (index.html) dan service worker (sw.js).
 (function(g){
+  // Sumber data cuaca: berkas di GitHub (tanpa deploy ulang). Ubah jika nama repo/cabang berganti.
+  g.URL_CUACA = "https://raw.githubusercontent.com/ryntac/Web-Lapor-Desa-Wirogomo/main/cuaca.json";
   const ms = w => Date.parse(w + ":00+07:00");
   const jam = w => w.slice(11,16).replace(":", ".");
   const tgl = t => new Date(t).toLocaleDateString("sv-SE", {timeZone:"Asia/Jakarta"});

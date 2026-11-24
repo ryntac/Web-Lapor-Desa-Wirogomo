@@ -288,7 +288,7 @@ function tampilCuaca(d, gagal){
   let html = "";
   if(d.contoh) html += '<div class="saran contoh">DATA CONTOH untuk uji coba, bukan cuaca sebenarnya.</div>';
   if(gagal) html += '<div class="saran">Belum bisa memperbarui. Ini data terakhir yang tersimpan.</div>';
-  else if(!lewat && kini - Date.parse(d.diambil) > 26*3600*1000) html += '<div class="saran">Data cuaca belum diperbarui sejak ' + fmtWaktu(d.diambil) + '. Hasilnya bisa kurang akurat.</div>';
+  else if(!lewat && kini - Date.parse(d.diambil) > 36*3600*1000) html += '<div class="saran">Data cuaca belum diperbarui sejak ' + fmtWaktu(d.diambil) + '. Hasilnya bisa kurang akurat.</div>';
   let mulai = idx;
   if(lewat){
     mulai = slot.findIndex(s => ms(s.w) > kini);
@@ -325,15 +325,28 @@ function tampilCuaca(d, gagal){
     Ini prakiraan cuaca, bukan peringatan dini.</p>`;
   $("cuaca-isi").innerHTML = html;
 }
+// Utamakan GitHub (selalu terbaru, tanpa deploy ulang); cadangan: salinan di hosting
+async function ambilData(){
+  let terbaik = null;
+  for(const u of [URL_CUACA, "cuaca.json"]){
+    try{
+      const r = await fetch(u, {cache:"no-cache"});
+      if(!r.ok) continue;
+      const d = await r.json();
+      if(!d || !Array.isArray(d.slot) || !d.slot.length) continue;
+      if(!terbaik || Date.parse(d.diambil) > Date.parse(terbaik.diambil)) terbaik = d;
+      if(u === URL_CUACA) break;
+    }catch(e){}
+  }
+  return terbaik;
+}
 async function muatCuaca(){
   let simpan = null;
   try{ simpan = JSON.parse(localStorage.getItem(KUNCI_CUACA) || "null"); }catch(e){}
   if(simpan && Array.isArray(simpan.slot)) tampilCuaca(simpan, false); else simpan = null;
   try{
-    const r = await fetch("cuaca.json",{cache:"no-cache"});
-    if(!r.ok) throw 0;
-    const d = await r.json();
-    if(!d || !Array.isArray(d.slot) || !d.slot.length) throw 0;
+    const d = await ambilData();
+    if(!d) throw 0;
     try{ localStorage.setItem(KUNCI_CUACA, JSON.stringify(d)); }catch(e){}
     tampilCuaca(d, false);
     jalankanNotif(d).catch(()=>{});

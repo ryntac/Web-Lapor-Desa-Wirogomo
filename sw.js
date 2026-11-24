@@ -1,5 +1,5 @@
 importScripts("notif.js");
-const CACHE = "info-desa-v6";
+const CACHE = "info-desa-v7";
 const SHELL = ["./", "index.html", "notif.js"];
 
 self.addEventListener("install", e => {
@@ -15,10 +15,11 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
   const url = new URL(e.request.url);
-  if (url.origin !== location.origin) return;
+  const cuacaGitHub = e.request.url === URL_CUACA;
+  if (!cuacaGitHub && url.origin !== location.origin) return;
 
-  // Data cuaca: utamakan yang terbaru (maksimal tunggu 8 detik), jika gagal pakai simpanan terakhir
-  if (url.pathname.endsWith("/cuaca.json")) {
+  // Data cuaca (GitHub atau salinan lokal): utamakan yang terbaru (maksimal tunggu 8 detik), jika gagal pakai simpanan terakhir
+  if (cuacaGitHub || url.pathname.endsWith("/cuaca.json")) {
     e.respondWith((async () => {
       const c = await caches.open(CACHE);
       try {
@@ -44,8 +45,10 @@ self.addEventListener("fetch", e => {
 self.addEventListener("periodicsync", e => { if(e.tag === "cuaca") e.waitUntil(cekLatar()); });
 async function cekLatar(){
   const c = await caches.open(CACHE); let d;
-  try{ const r = await fetch("cuaca.json", {cache:"no-store"}); if(r.ok){ c.put("cuaca.json", r.clone()); d = await r.json(); } }catch(_){}
-  if(!d){ const m = await c.match("cuaca.json"); if(!m) return; d = await m.json(); }
+  for(const u of [URL_CUACA, "cuaca.json"]){
+    try{ const r = await fetch(u, {cache:"no-store"}); if(r.ok){ d = await r.json(); c.put(u, new Response(JSON.stringify(d))); break; } }catch(_){}
+  }
+  if(!d){ for(const u of [URL_CUACA, "cuaca.json"]){ const m = await c.match(u); if(m){ d = await m.json(); break; } } if(!d) return; }
   if(d.contoh) return;
   const sm = await c.match("notif-state"); const sudah = sm ? await sm.json() : {};
   for(const n of hitungNotif(d, Date.now(), sudah)){ sudah[n.tag] = 1; await self.registration.showNotification(n.judul, {body:n.isi, tag:n.tag}); }

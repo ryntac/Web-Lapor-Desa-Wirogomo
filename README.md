@@ -9,7 +9,7 @@ Dirancang untuk sinyal lemah: ringan, bisa dibuka tanpa internet, dan mudah dipa
 ![Versi](https://img.shields.io/badge/versi-1.0-blue)
 ![Tipe](https://img.shields.io/badge/tipe-PWA%20statis-informational)
 ![Dependensi](https://img.shields.io/badge/dependensi-tanpa-brightgreen)
-![Pembaruan cuaca](https://img.shields.io/badge/cuaca-otomatis%202x%2Fhari-orange)
+![Pembaruan cuaca](https://img.shields.io/badge/cuaca-otomatis%201x%2Fhari-orange)
 
 </div>
 
@@ -42,26 +42,27 @@ Proyek ini adalah situs statis (HTML, CSS, JavaScript) tanpa server, tanpa basis
 
 ## Fitur
 
-| Modul              | Deskripsi                                                                                                                                                       |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Cuaca**          | Kondisi terkini dan prakiraan beberapa hari. Sumber utama BMKG, cadangan Open-Meteo. Menampilkan waktu pembaruan terakhir dan peringatan bila data kedaluwarsa. |
-| **Notifikasi**     | Peringatan cuaca buruk dan ringkasan cuaca harian (lihat [batasan](#notifikasi)).                                                                               |
-| **Kontak darurat** | 112, ambulans, pemadam kebakaran, polisi, Basarnas, BPBD, PLN, dan nomor desa. Panggilan satu ketukan.                                                          |
-| **Lapor kejadian** | Formulir singkat dengan pratinjau pesan, lokasi GPS opsional, dan pengiriman ke penerima yang dipilih lewat WhatsApp atau SMS.                                  |
-| **Offline**        | Service worker menyimpan halaman dan data cuaca terakhir agar tetap terbuka tanpa internet.                                                                     |
-| **Aksesibilitas**  | Teks besar, kontras tinggi, dan area sentuh yang luas untuk pengguna lanjut usia.                                                                               |
+| Modul | Deskripsi |
+|---|---|
+| **Cuaca** | Kondisi terkini dan prakiraan beberapa hari. Sumber utama BMKG, cadangan Open-Meteo. Menampilkan waktu pembaruan terakhir dan peringatan bila data kedaluwarsa. |
+| **Notifikasi** | Peringatan cuaca buruk dan ringkasan cuaca harian (lihat [batasan](#notifikasi)). |
+| **Kontak darurat** | 112, ambulans, pemadam kebakaran, polisi, Basarnas, BPBD, PLN, dan nomor desa. Panggilan satu ketukan. |
+| **Lapor kejadian** | Formulir singkat dengan pratinjau pesan, lokasi GPS opsional, dan pengiriman ke penerima yang dipilih lewat WhatsApp atau SMS. |
+| **Offline** | Service worker menyimpan halaman dan data cuaca terakhir agar tetap terbuka tanpa internet. |
+| **Aksesibilitas** | Teks besar, kontras tinggi, dan area sentuh yang luas untuk pengguna lanjut usia. |
 
 ## Arsitektur
 
 ```mermaid
 flowchart LR
-  A[GitHub Actions<br/>jadwal 2x sehari] --> B[scripts/ambil-cuaca.js]
+  A[GitHub Actions<br/>jadwal 1x sehari] --> B[scripts/ambil-cuaca.js]
   B -->|utama| C[(API BMKG)]
   B -->|cadangan| D[(API Open-Meteo)]
   B --> E[cuaca.json]
   E -->|commit| F[Repositori GitHub]
   F -->|deploy otomatis| G[Hosting statis]
   G --> H[Browser warga]
+  F -->|cuaca.json langsung<br/>raw.githubusercontent.com| H
   H <--> I[Service worker<br/>cache offline + notifikasi]
 ```
 
@@ -75,6 +76,7 @@ Alur singkat: Actions mengambil data, menulis `cuaca.json`, dan meng-commit-nya.
 ├── sw.js                       # service worker: cache offline, notifikasi latar belakang
 ├── notif.js                    # logika notifikasi (dipakai halaman dan sw.js)
 ├── cuaca.json                  # data cuaca; dihasilkan otomatis, jangan diedit manual
+├── netlify.toml                # (Netlify) lewati deploy bila hanya cuaca.json yang berubah
 ├── scripts/
 │   └── ambil-cuaca.js          # mengambil data cuaca dan menulis cuaca.json
 └── .github/
@@ -112,20 +114,21 @@ Gunakan alamat HTTPS sementara, misalnya fitur **Ports** di VS Code atau `cloudf
 
 Pengaturan berada di bagian atas tag `<script>` pada `index.html`.
 
-| Parameter          | Fungsi                                                         |
-| ------------------ | -------------------------------------------------------------- |
-| `NAMA_DESA`        | Nama desa pada pesan laporan                                   |
-| `PENERIMA_WA.bpbd` | Nomor WhatsApp BPBD                                            |
-| `NOMOR_SMS`        | Nomor tujuan SMS. Kosongkan untuk menyembunyikan tombol        |
-| `NOMOR_TELP`       | Nomor tombol telepon darurat (default `112`)                   |
-| `ENDPOINT`         | URL penampung laporan, opsional (mengaktifkan antrean offline) |
-| `KONTAK`           | Daftar kontak pada tab Kontak                                  |
+| Parameter | Fungsi |
+|---|---|
+| `NAMA_DESA` | Nama desa pada pesan laporan |
+| `PENERIMA_WA.desa` | Nomor WhatsApp piket atau Kepala Desa (format `62...`, tanpa `+`). Tombol tersembunyi sampai diisi |
+| `PENERIMA_WA.bpbd` | Nomor WhatsApp BPBD |
+| `NOMOR_SMS` | Nomor tujuan SMS. Kosongkan untuk menyembunyikan tombol |
+| `NOMOR_TELP` | Nomor tombol telepon darurat (default `112`) |
+| `ENDPOINT` | URL penampung laporan, opsional (mengaktifkan antrean offline) |
+| `KONTAK` | Daftar kontak pada tab Kontak |
 
 Pengaturan sumber data cuaca berada di `scripts/ambil-cuaca.js`:
 
-| Parameter    | Fungsi                                     |
-| ------------ | ------------------------------------------ |
-| `ADM4`       | Kode wilayah BMKG tingkat desa             |
+| Parameter | Fungsi |
+|---|---|
+| `ADM4` | Kode wilayah BMKG tingkat desa |
 | `LAT`, `LON` | Koordinat untuk sumber cadangan Open-Meteo |
 
 Nomor versi yang tampil di aplikasi ditulis pada `index.html` (teks `Versi 1.0`).
@@ -137,17 +140,23 @@ Situs ini dapat dipasang di hosting statis gratis mana pun, misalnya GitHub Page
 Ketentuan umum:
 
 - Hubungkan repositori GitHub ke penyedia hosting
-- Kosongkan _build command_
+- Kosongkan *build command*
 - Arahkan folder publikasi ke akar repositori
 - Gunakan alamat HTTPS (wajib untuk notifikasi dan service worker)
 
-Setiap commit `cuaca.json` memicu satu deploy. Dengan jadwal dua kali sehari, jumlahnya sekitar 60 deploy per bulan. Periksa batas paket gratis penyedia hosting yang dipilih.
+Aplikasi membaca `cuaca.json` langsung dari GitHub (`raw.githubusercontent.com`), jadi pembaruan cuaca **tidak perlu deploy ulang situs**. Salinan `cuaca.json` di hosting hanya menjadi cadangan. Agar commit cuaca juga tidak memicu build di hosting:
+
+- **Netlify:** berkas `netlify.toml` di repo melewati build bila hanya `cuaca.json` yang berubah.
+- **Cloudflare Pages:** di *Settings → Builds → Build watch paths*, kecualikan `cuaca.json`.
+- **GitHub Pages:** tidak ada kuota deploy per build seperti di Netlify, jadi tidak perlu pengaturan khusus.
+
+Ketentuan: repositori harus **publik** dan alamat sumber data diatur di `notif.js` (`URL_CUACA`). Ubah jika nama repositori atau cabang berganti. Perubahan di GitHub biasanya terlihat dalam beberapa menit karena cache CDN.
 
 Beberapa paket gratis menampilkan lencana atau elemen penyedia pada situs. Pengaturannya biasanya dapat diubah di dasbor penyedia.
 
 ## Pembaruan cuaca otomatis
 
-Workflow `.github/workflows/cuaca.yml` menjalankan `scripts/ambil-cuaca.js` pada sekitar **05.07 WIB** dan **17.07 WIB**, lalu meng-commit `cuaca.json` bila ada perubahan. Workflow juga berjalan ketika `ambil-cuaca.js` atau `cuaca.yml` diubah, dan dapat dijalankan manual lewat **Actions → Perbarui cuaca → Run workflow**.
+Workflow `.github/workflows/cuaca.yml` menjalankan `scripts/ambil-cuaca.js` sekitar pukul **05.07 WIB** setiap hari, lalu meng-commit `cuaca.json` bila ada perubahan. Workflow juga berjalan ketika `ambil-cuaca.js` atau `cuaca.yml` diubah, dan dapat dijalankan manual lewat **Actions → Perbarui cuaca → Run workflow**.
 
 **Urutan sumber data**
 
@@ -158,14 +167,14 @@ Halaman mencantumkan sumber yang dipakai. Data Open-Meteo diberi label sebagai m
 
 **Prasyarat repositori**
 
-- _Settings → Actions → General → Workflow permissions_ diatur ke **Read and write permissions**
+- *Settings → Actions → General → Workflow permissions* diatur ke **Read and write permissions**
 
 **Catatan operasional**
 
 - Jadwal GitHub dapat tertunda beberapa menit hingga puluhan menit.
 - Pada repositori publik, GitHub menonaktifkan jadwal otomatis jika tidak ada aktivitas selama 60 hari. Aktifkan kembali dari tab Actions bila perlu.
-- Bot menambahkan commit di GitHub, sehingga lakukan _pull_ sebelum mengedit berkas secara lokal.
-- Halaman menampilkan peringatan bila data lebih tua dari 26 jam.
+- Bot menambahkan commit di GitHub, sehingga lakukan *pull* sebelum mengedit berkas secara lokal.
+- Halaman menampilkan peringatan bila data lebih tua dari 36 jam.
 
 ## Notifikasi
 
@@ -176,9 +185,9 @@ Dua jenis notifikasi tersedia setelah pengguna menekan **Aktifkan notifikasi cua
 
 **Batasan teknis**
 
-- Notifikasi muncul saat web dibuka. Pada Chrome/Edge Android dengan web yang sudah ditambahkan ke layar utama, sinkronisasi latar belakang (_periodic sync_) dapat berjalan, tetapi waktunya ditentukan browser dan tidak dijamin.
+- Notifikasi muncul saat web dibuka. Pada Chrome/Edge Android dengan web yang sudah ditambahkan ke layar utama, sinkronisasi latar belakang (*periodic sync*) dapat berjalan, tetapi waktunya ditentukan browser dan tidak dijamin.
 - iPhone tidak mendukung sinkronisasi latar belakang tersebut.
-- Notifikasi andal saat web tertutup membutuhkan server _push_, yang tidak termasuk dalam arsitektur statis ini. Alternatif: kirim peringatan ke channel Telegram atau grup WhatsApp desa melalui GitHub Actions.
+- Notifikasi andal saat web tertutup membutuhkan server *push*, yang tidak termasuk dalam arsitektur statis ini. Alternatif: kirim peringatan ke channel Telegram atau grup WhatsApp desa melalui GitHub Actions.
 
 ## Pelaporan kejadian
 
@@ -202,8 +211,19 @@ Tombol membuka aplikasi tujuan dengan pesan terisi; pengguna harus menekan kirim
 ## Batasan
 
 - Prakiraan cuaca **bukan peringatan dini resmi**. Untuk peringatan dini, rujuk BMKG.
-- Pembaruan cuaca dua kali sehari, sehingga perubahan mendadak dapat terlambat terlihat.
+- Pembaruan cuaca sekali sehari, sehingga perubahan mendadak dapat terlambat terlihat.
 - Aplikasi ini melengkapi, bukan menggantikan, panggilan ke layanan darurat.
+- Penerima laporan (perangkat desa dan BPBD) harus menyetujui dan memantau saluran yang dicantumkan.
+
+## Daftar cek peluncuran
+
+- [ ] Isi `PENERIMA_WA.desa` dengan nomor piket desa yang telah disepakati
+- [ ] Konfirmasi bahwa BPBD menerima laporan melalui WhatsApp dan SMS yang dicantumkan
+- [ ] Isi nomor Kepala Desa, Puskesmas, dan bidan desa pada `KONTAK` (nomor yang sudah diverifikasi)
+- [ ] Jalankan workflow cuaca dan pastikan `cuaca.json` terisi
+- [ ] Uji di HP: mode pesawat, notifikasi, GPS, tombol telepon, dan formulir laporan
+- [ ] Verifikasi persyaratan atribusi sumber data (Open-Meteo)
+- [ ] Informasikan kepada warga bahwa notifikasi harus diaktifkan ulang bila alamat web berganti
 
 ## Pemeliharaan
 
@@ -219,7 +239,7 @@ Tombol membuka aplikasi tujuan dengan pesan terisi; pengguna harus menekan kirim
 
 ## Kontributor dan lisensi
 
-- **Pengembang:** Brilliance AR
+- **Pengembang:** _isi nama_
 - **Mitra desa:** Pemerintah Desa Wirogomo, Kecamatan Banyubiru, Kabupaten Semarang
 - **Lisensi:** [MIT](LICENSE)
 
