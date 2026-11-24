@@ -213,17 +213,6 @@ Tombol membuka aplikasi tujuan dengan pesan terisi; pengguna harus menekan kirim
 - Prakiraan cuaca **bukan peringatan dini resmi**. Untuk peringatan dini, rujuk BMKG.
 - Pembaruan cuaca sekali sehari, sehingga perubahan mendadak dapat terlambat terlihat.
 - Aplikasi ini melengkapi, bukan menggantikan, panggilan ke layanan darurat.
-- Penerima laporan (perangkat desa dan BPBD) harus menyetujui dan memantau saluran yang dicantumkan.
-
-## Daftar cek peluncuran
-
-- [ ] Isi `PENERIMA_WA.desa` dengan nomor piket desa yang telah disepakati
-- [ ] Konfirmasi bahwa BPBD menerima laporan melalui WhatsApp dan SMS yang dicantumkan
-- [ ] Isi nomor Kepala Desa, Puskesmas, dan bidan desa pada `KONTAK` (nomor yang sudah diverifikasi)
-- [ ] Jalankan workflow cuaca dan pastikan `cuaca.json` terisi
-- [ ] Uji di HP: mode pesawat, notifikasi, GPS, tombol telepon, dan formulir laporan
-- [ ] Verifikasi persyaratan atribusi sumber data (Open-Meteo)
-- [ ] Informasikan kepada warga bahwa notifikasi harus diaktifkan ulang bila alamat web berganti
 
 ## Pemeliharaan
 
@@ -239,7 +228,7 @@ Tombol membuka aplikasi tujuan dengan pesan terisi; pengguna harus menekan kirim
 
 ## Kontributor dan lisensi
 
-- **Pengembang:** _isi nama_
+- **Pengembang:** Brilliance AR
 - **Mitra desa:** Pemerintah Desa Wirogomo, Kecamatan Banyubiru, Kabupaten Semarang
 - **Lisensi:** [MIT](LICENSE)
 
