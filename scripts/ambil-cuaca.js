@@ -91,9 +91,19 @@ function dariOpenMeteo(raw) {
     diambil: new Date().toISOString(), contoh: false, slot };
 }
 async function ambilOpenMeteo() {
-  const r = await fetch(URL_OM, { signal: AbortSignal.timeout(20000) });
-  if (!r.ok) throw new Error("Open-Meteo HTTP " + r.status);
-  return dariOpenMeteo(await r.json());
+  let err;
+  for (let i = 1; i <= 4; i++) {
+    try {
+      const r = await fetch(URL_OM, { headers: { "User-Agent": "info-desa-wirogomo/1.0 (PkM)" }, signal: AbortSignal.timeout(20000) });
+      if (!r.ok) throw new Error("Open-Meteo HTTP " + r.status);
+      return dariOpenMeteo(await r.json());
+    } catch (e) {
+      err = e;
+      console.error(`Open-Meteo percobaan ${i} gagal: ${e.message}`);
+      await new Promise(res => setTimeout(res, i * 5000));
+    }
+  }
+  throw err;
 }
 
 async function main() {
@@ -105,7 +115,11 @@ async function main() {
   if (berkas) hasil = ringkas(JSON.parse(fs.readFileSync(berkas, "utf8")), { contoh: true, geserKeHariIni: true });
   else {
     try { hasil = ringkas(await ambilBMKG()); }
-    catch (e) { console.error("BMKG gagal (" + e.message + "). Memakai Open-Meteo."); hasil = await ambilOpenMeteo(); }
+    catch (e) {
+      console.error("BMKG gagal (" + e.message + "). Memakai Open-Meteo.");
+      try { hasil = await ambilOpenMeteo(); }
+      catch (e2) { throw new Error("Semua sumber gagal. BMKG: " + e.message + " | Open-Meteo: " + e2.message); }
+    }
   }
   const tmp = keluar + ".tmp";
   fs.writeFileSync(tmp, JSON.stringify(hasil));
